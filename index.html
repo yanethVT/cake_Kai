@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Birthday Card</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f8ff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .card {
+            background-color: #fff;
+            width: 50%;
+            margin: 50px auto;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        h1 {
+            color: #ff6347;
+            font-size: 2.5em;
+        }
+
+        .birthday-message {
+            font-size: 1.2em;
+            color: #333;
+            margin: 20px 0;
+        }
+
+        .cake-container {
+            position: relative; /* Keeps the cake container as the reference for absolute positioning of elements */
+        }
+
+        .cake {
+            width: 80%;
+            border-radius: 10px;
+        }
+
+        .candle {
+            position: absolute;
+            width: 20px; /* Larger width for large candles */
+            height: 80px; /* Taller candles */
+            background-color: yellow;
+            border-radius: 10px;
+            top: 70px;
+        }
+
+        .candle:before {
+            content: '🔥';
+            font-size: 50px; /* Larger flame */
+            position: absolute;
+            top: -35px;
+            left: -10px;
+        }
+
+        .candle.off:before {
+            content: '💨'; /* Blown-out flame */
+        }
+
+        /* Updated positions for closer candles */
+        .candle1 { left: 30%; }
+        .candle2 { left: 45%; }
+        .candle3 { left: 60%; }
+
+        #allBlownMessage {
+            position: absolute; /* Position over the cake */
+            top: 10px; /* Adjust position over the candles */
+            left: 50%; /* Center it horizontally */
+            transform: translateX(-50%); /* Make sure it's centered */
+            font-size: 1.5em;
+            color: green;
+            background-color: rgba(255, 255, 255, 0.7); /* Optional: background to make text more readable */
+            padding: 10px;
+            border-radius: 10px;
+            z-index: 10; /* Ensure it's on top of the cake and candles */
+            display: none; /* Hidden by default */
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Hi, KAI ojitos de gato, blow the candles and make only 3 wishes!</h1>
+        <p class="birthday-message">Blow the candles!</p> <!-- Updated instruction -->
+        <div class="cake-container">
+            <img src="image1.jpg" alt="Birthday Cake" class="cake"> <!-- Updated image source -->
+            <div class="candle candle1" onclick="turnOffCandle(this)"></div>
+            <div class="candle candle2" onclick="turnOffCandle(this)"></div>
+            <div class="candle candle3" onclick="turnOffCandle(this)"></div>
+        </div>
+        <div id="allBlownMessage" style="display: none;">Sorry, only one wish will be fulfill.</div> <!-- Updated message -->
+    </div>
+
+    <script>
+        // Function to turn off the candle (blow it out)
+        function turnOffCandle(candle) {
+            candle.classList.toggle('off'); // Toggle between on and off (blown out)
+            
+            // Check if all candles are turned off
+            checkAllCandlesBlown();
+        }
+
+        // Function to check if all candles are blown out
+        function checkAllCandlesBlown() {
+            // Get all the candles
+            const candles = document.querySelectorAll('.candle');
+            
+            // Check if all candles have the 'off' class
+            const allBlown = Array.from(candles).every(candle => candle.classList.contains('off'));
+
+            // Show the message if all candles are blown out
+            const message = document.getElementById('allBlownMessage');
+            if (allBlown) {
+                message.style.display = 'block'; // Show the message
+                
+                // Ask for wishes when all candles are blown out
+                askForWishes();
+            } else {
+                message.style.display = 'none'; // Hide the message if not all are blown out
+            }
+        }
+
+        // Function to ask for three wishes
+        function askForWishes() {
+            const wishes = [];
+            for (let i = 1; i <= 3; i++) {
+                let wish = prompt(`Enter your wish #${i}:`);
+                if (wish && wish.trim() !== '') {
+                    wishes.push(wish.trim());
+                } else {
+                    wishes.push('No wish entered.');
+                }
+            }
+            alert(`Your wishes are:\n1. ${wishes[0]}\n2. ${wishes[1]}\n3. ${wishes[2]}`);
+        }
+    </script>
+</body>
+</html>
